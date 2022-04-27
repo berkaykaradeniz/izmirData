@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.izmir.izmirli.R
+import com.izmir.izmirli.model.HastanelerResponse
 import com.izmir.izmirli.model.NobetciEczaneResponse
 import kotlinx.android.synthetic.main.result_izmir_data_item_layout.view.*
 
 class IzmirAdapter : RecyclerView.Adapter<IzmirAdapter.IzmirViewHolder>() {
 
     private var izmirDataList: ArrayList<NobetciEczaneResponse.NobetciEczaneResponseItem> = arrayListOf()
+    private var hastanelerDatalist: ArrayList<HastanelerResponse> = arrayListOf()
     var eczaneClickListener : (NobetciEczaneResponse.NobetciEczaneResponseItem) -> Unit = {}
 
 
@@ -45,6 +47,11 @@ class IzmirAdapter : RecyclerView.Adapter<IzmirAdapter.IzmirViewHolder>() {
     fun setIzmirData(listIzmir: ArrayList<NobetciEczaneResponse.NobetciEczaneResponseItem>){
         izmirDataList.clear()
         izmirDataList.addAll(listIzmir)
+        notifyDataSetChanged()
+    }
+    fun setHastanelerData(ListHastaneler: HastanelerResponse){
+        hastanelerDatalist.clear()
+        hastanelerDatalist.addAll(listOf(ListHastaneler))
         notifyDataSetChanged()
     }
 }

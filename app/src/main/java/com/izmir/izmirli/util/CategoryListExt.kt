@@ -36,6 +36,7 @@ fun subCategoryList2() : ArrayList<String>{
         add("Askıda İzmir2")
         add("Tren Garları2")
         add("Metro istasyon2")
+        add("Hastaneler")
     }
     return subCategoryList
 }

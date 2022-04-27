@@ -5,27 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.izmir.izmirli.adapter.IzmirAdapter
 import com.izmir.izmirli.databinding.ActivityMainBinding
-import com.izmir.izmirli.model.GameTypeResponse
+import com.izmir.izmirli.model.HastanelerResponse
 import com.izmir.izmirli.model.NobetciEczaneResponse
-import com.izmir.izmirli.model.TrenGarlariResponse
 import com.izmir.izmirli.util.*
 import com.kafein.weatherapp.IzmirAPIService
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.logging.Handler
 
 class MainActivity : AppCompatActivity(), Example {
 
@@ -59,6 +49,29 @@ class MainActivity : AppCompatActivity(), Example {
                         //filter fun -> .filter { it.bolgeId == 19 } as ArrayList<NobetciEczaneResponse.NobetciEczaneResponseItem>
                         izmirAdapter.setIzmirData(eczaneler)
                         Log.i("response", eczaneler.toString())
+                        binding.pbLoader.visibility = View.GONE
+                    }
+                }
+                override fun onError(e: Throwable) {
+                    e.printStackTrace()
+                    Log.i("response", e.message.toString())
+                }
+            })
+
+        izmirAPIService.getHastaneler()
+            .subscribeOn(Schedulers.newThread())
+            .subscribeWith(object : DisposableSingleObserver<HastanelerResponse>() {
+                @RequiresApi(Build.VERSION_CODES.O)
+                override fun onSuccess(hastaneler: HastanelerResponse) {
+                    runOnUiThread {
+                        hastaneler.onemliyer[0].let {
+                            Log.i("yer",
+                                it.ADI
+                            )
+                        }
+                        //filter fun -> .filter { it.bolgeId == 19 } as ArrayList<NobetciEczaneResponse.NobetciEczaneResponseItem>
+                        izmirAdapter.setHastanelerData(hastaneler)
+                        Log.i("response", hastaneler.toString())
                         binding.pbLoader.visibility = View.GONE
                     }
                 }

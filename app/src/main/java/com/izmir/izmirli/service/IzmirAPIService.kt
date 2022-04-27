@@ -2,6 +2,7 @@ package com.kafein.weatherapp
 
 
 import com.izmir.izmirli.model.GameTypeResponse
+import com.izmir.izmirli.model.HastanelerResponse
 import com.izmir.izmirli.model.NobetciEczaneResponse
 import com.izmir.izmirli.model.TrenGarlariResponse
 import io.reactivex.Single
@@ -28,5 +29,8 @@ class IzmirAPIService {
     }
     fun getNobetciEczane() : Single<NobetciEczaneResponse> {
         return api.getNobetciEczane()
+    }
+    fun getHastaneler() : Single<HastanelerResponse> {
+        return api.getHastaneler()
     }
 }
